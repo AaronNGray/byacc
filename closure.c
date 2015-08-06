@@ -10,7 +10,7 @@ static unsigned *first_base;
 static unsigned *first_derives;
 static unsigned *EFF;
 
-#ifdef	DEBUG
+#ifdef DEBUG
 static void print_closure(int);
 static void print_EFF(void);
 static void print_first_derives(void);
@@ -32,22 +32,22 @@ set_EFF(void)
     row = EFF;
     for (i = start_symbol; i < nsyms; i++)
     {
-	sp = derives[i];
-	for (rule = *sp; rule > 0; rule = *++sp)
-	{
-	    symbol = ritem[rrhs[rule]];
-	    if (ISVAR(symbol))
-	    {
-		symbol -= start_symbol;
-		SETBIT(row, symbol);
-	    }
-	}
-	row += rowsize;
+        sp = derives[i];
+        for (rule = *sp; rule > 0; rule = *++sp)
+        {
+            symbol = ritem[rrhs[rule]];
+            if (ISVAR(symbol))
+            {
+                symbol -= start_symbol;
+                SETBIT(row, symbol);
+            }
+        }
+        row += rowsize;
     }
 
     reflexive_transitive_closure(EFF, nvars);
 
-#ifdef	DEBUG
+#ifdef DEBUG
     print_EFF();
 #endif
 }
@@ -77,30 +77,30 @@ set_first_derives(void)
     rrow = first_derives + ntokens * rulesetsize;
     for (i = start_symbol; i < nsyms; i++)
     {
-	vrow = EFF + ((i - ntokens) * varsetsize);
-	k = BITS_PER_WORD;
-	for (j = start_symbol; j < nsyms; k++, j++)
-	{
-	    if (k >= BITS_PER_WORD)
-	    {
-		cword = *vrow++;
-		k = 0;
-	    }
+        vrow = EFF + ((i - ntokens) * varsetsize);
+        k = BITS_PER_WORD;
+        for (j = start_symbol; j < nsyms; k++, j++)
+        {
+            if (k >= BITS_PER_WORD)
+            {
+                cword = *vrow++;
+                k = 0;
+            }
 
-	    if (cword & (unsigned)(1 << k))
-	    {
-		rp = derives[j];
-		while ((rule = *rp++) >= 0)
-		{
-		    SETBIT(rrow, rule);
-		}
-	    }
-	}
+            if (cword & (unsigned)(1 << k))
+            {
+                rp = derives[j];
+                while ((rule = *rp++) >= 0)
+                {
+                    SETBIT(rrow, rule);
+                }
+            }
+        }
 
-	rrow += rulesetsize;
+        rrow += rulesetsize;
     }
 
-#ifdef	DEBUG
+#ifdef DEBUG
     print_first_derives();
 #endif
 
@@ -126,19 +126,19 @@ closure(Value_t *nucleus, int n)
     rulesetsize = WORDSIZE(nrules);
     rsend = ruleset + rulesetsize;
     for (rsp = ruleset; rsp < rsend; rsp++)
-	*rsp = 0;
+        *rsp = 0;
 
     csend = nucleus + n;
     for (csp = nucleus; csp < csend; ++csp)
     {
-	symbol = ritem[*csp];
-	if (ISVAR(symbol))
-	{
-	    dsp = first_derives + symbol * rulesetsize;
-	    rsp = ruleset;
-	    while (rsp < rsend)
-		*rsp++ |= *dsp++;
-	}
+        symbol = ritem[*csp];
+        if (ISVAR(symbol))
+        {
+            dsp = first_derives + symbol * rulesetsize;
+            rsp = ruleset;
+            while (rsp < rsend)
+                *rsp++ |= *dsp++;
+        }
     }
 
     ruleno = 0;
@@ -146,29 +146,29 @@ closure(Value_t *nucleus, int n)
     csp = nucleus;
     for (rsp = ruleset; rsp < rsend; ++rsp)
     {
-	word = *rsp;
-	if (word)
-	{
-	    for (i = 0; i < BITS_PER_WORD; ++i)
-	    {
-		if (word & (unsigned)(1 << i))
-		{
-		    itemno = rrhs[ruleno + i];
-		    while (csp < csend && *csp < itemno)
-			*itemsetend++ = *csp++;
-		    *itemsetend++ = itemno;
-		    while (csp < csend && *csp == itemno)
-			++csp;
-		}
-	    }
-	}
-	ruleno += BITS_PER_WORD;
+        word = *rsp;
+        if (word)
+        {
+            for (i = 0; i < BITS_PER_WORD; ++i)
+            {
+                if (word & (unsigned)(1 << i))
+                {
+                    itemno = rrhs[ruleno + i];
+                    while (csp < csend && *csp < itemno)
+                        *itemsetend++ = *csp++;
+                    *itemsetend++ = itemno;
+                    while (csp < csend && *csp == itemno)
+                        ++csp;
+                }
+            }
+        }
+        ruleno += BITS_PER_WORD;
     }
 
     while (csp < csend)
-	*itemsetend++ = *csp++;
+        *itemsetend++ = *csp++;
 
-#ifdef	DEBUG
+#ifdef DEBUG
     print_closure(n);
 #endif
 }
@@ -181,7 +181,7 @@ finalize_closure(void)
     FREE(first_base);
 }
 
-#ifdef	DEBUG
+#ifdef DEBUG
 
 static void
 print_closure(int n)
@@ -190,7 +190,7 @@ print_closure(int n)
 
     printf("\n\nn = %d\n\n", n);
     for (isp = itemset; isp < itemsetend; isp++)
-	printf("   %d\n", *isp);
+        printf("   %d\n", *isp);
 }
 
 static void
@@ -205,22 +205,22 @@ print_EFF(void)
 
     for (i = start_symbol; i < nsyms; i++)
     {
-	printf("\n%s", symbol_name[i]);
-	rowp = EFF + ((i - start_symbol) * WORDSIZE(nvars));
-	word = *rowp++;
+        printf("\n%s", symbol_name[i]);
+        rowp = EFF + ((i - start_symbol) * WORDSIZE(nvars));
+        word = *rowp++;
 
-	k = BITS_PER_WORD;
-	for (j = 0; j < nvars; k++, j++)
-	{
-	    if (k >= BITS_PER_WORD)
-	    {
-		word = *rowp++;
-		k = 0;
-	    }
+        k = BITS_PER_WORD;
+        for (j = 0; j < nvars; k++, j++)
+        {
+            if (k >= BITS_PER_WORD)
+            {
+                word = *rowp++;
+                k = 0;
+            }
 
-	    if (word & (1 << k))
-		printf("  %s", symbol_name[start_symbol + j]);
-	}
+            if (word & (1 << k))
+                printf("  %s", symbol_name[start_symbol + j]);
+        }
     }
 }
 
@@ -237,20 +237,20 @@ print_first_derives(void)
 
     for (i = start_symbol; i < nsyms; i++)
     {
-	printf("\n%s derives\n", symbol_name[i]);
-	rp = first_derives + i * WORDSIZE(nrules);
-	k = BITS_PER_WORD;
-	for (j = 0; j <= nrules; k++, j++)
-	{
-	    if (k >= BITS_PER_WORD)
-	    {
-		cword = *rp++;
-		k = 0;
-	    }
+        printf("\n%s derives\n", symbol_name[i]);
+        rp = first_derives + i * WORDSIZE(nrules);
+        k = BITS_PER_WORD;
+        for (j = 0; j <= nrules; k++, j++)
+        {
+            if (k >= BITS_PER_WORD)
+            {
+                cword = *rp++;
+                k = 0;
+            }
 
-	    if (cword & (1 << k))
-		printf("   %d\n", j);
-	}
+            if (cword & (1 << k))
+                printf("   %d\n", j);
+        }
     }
 
     fflush(stdout);
