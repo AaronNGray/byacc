@@ -22,8 +22,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-typedef struct _my_tmpfiles
-{
+typedef struct _my_tmpfiles {
     struct _my_tmpfiles *next;
     char *name;
 }
@@ -124,9 +123,7 @@ char *nullable;
 
 static int got_intr = 0;
 
-void
-done(int k)
-{
+void done(int k) {
     DO_CLOSE(input_file);
     DO_CLOSE(output_file);
     if (iflag)
@@ -174,16 +171,12 @@ done(int k)
     exit(k);
 }
 
-static void
-onintr(int sig GCC_UNUSED)
-{
+static void onintr(int sig GCC_UNUSED) {
     got_intr = 1;
     done(EXIT_FAILURE);
 }
 
-static void
-set_signals(void)
-{
+static void set_signals(void) {
 #ifdef SIGINT
     if (signal(SIGINT, SIG_IGN) != SIG_IGN)
         signal(SIGINT, onintr);
@@ -198,9 +191,7 @@ set_signals(void)
 #endif
 }
 
-static void
-usage(void)
-{
+static void usage(void) {
     static const char *msg[] =
     {
         ""
@@ -231,11 +222,8 @@ usage(void)
     exit(1);
 }
 
-static void
-setflag(int ch)
-{
-    switch (ch)
-    {
+static void setflag(int ch) {
+    switch (ch) {
     case 'B':
 #if defined(YYBTYACC)
         backtrack = 1;
@@ -302,9 +290,7 @@ setflag(int ch)
     }
 }
 
-static void
-getargs(int argc, char *argv[])
-{
+static void getargs(int argc, char *argv[]) {
     int i;
     char *s;
     int ch;
@@ -312,13 +298,11 @@ getargs(int argc, char *argv[])
     if (argc > 0)
         myname = argv[0];
 
-    for (i = 1; i < argc; ++i)
-    {
+    for (i = 1; i < argc; ++i) {
         s = argv[i];
         if (*s != '-')
             break;
-        switch (ch = *++s)
-        {
+        switch (ch = *++s) {
         case '\0':
             input_file = stdin;
             if (i + 1 < argc)
@@ -361,10 +345,8 @@ getargs(int argc, char *argv[])
             break;
         }
 
-        for (;;)
-        {
-            switch (ch = *++s)
-            {
+        while (TRUE) {
+            switch (ch = *++s) {
             case '\0':
                 goto end_of_option;
 
@@ -382,14 +364,11 @@ getargs(int argc, char *argv[])
     input_file_name = argv[i];
 }
 
-void *
-allocate(size_t n)
-{
+void * allocate(size_t n) {
     void *p;
 
     p = NULL;
-    if (n)
-    {
+    if (n) {
         p = CALLOC(1, n);
         NO_SPACE(p);
     }
@@ -399,9 +378,7 @@ allocate(size_t n)
 #define CREATE_FILE_NAME(dest, suffix) \
         dest = alloc_file_name(len, suffix)
 
-static char *
-alloc_file_name(size_t len, const char *suffix)
-{
+static char * alloc_file_name(size_t len, const char *suffix) {
     char *result = TMALLOC(char, len + strlen(suffix) + 1);
     if (result == 0)
         no_space();
@@ -410,9 +387,7 @@ alloc_file_name(size_t len, const char *suffix)
     return result;
 }
 
-static void
-create_file_names(void)
-{
+static void create_file_names(void) {
     size_t len;
     const char *defines_suffix;
     const char *externs_suffix;
@@ -423,18 +398,14 @@ create_file_names(void)
     externs_suffix = EXTERNS_SUFFIX;
 
     /* compute the file_prefix from the user provided output_file_name */
-    if (output_file_name != 0)
-    {
-        if (!(prefix = strstr(output_file_name, OUTPUT_SUFFIX))
-            && (prefix = strstr(output_file_name, ".c")))
-        {
+    if (output_file_name != 0) {
+        if (!(prefix = strstr(output_file_name, OUTPUT_SUFFIX)) && (prefix = strstr(output_file_name, ".c"))) {
             defines_suffix = ".h";
             externs_suffix = ".i";
         }
     }
 
-    if (prefix != NULL)
-    {
+    if (prefix != NULL) {
         len = (size_t) (prefix - output_file_name);
         file_prefix = TMALLOC(char, len + 1);
         NO_SPACE(file_prefix);
@@ -444,51 +415,35 @@ create_file_names(void)
         len = strlen(file_prefix);
 
     /* if "-o filename" was not given */
-    if (output_file_name == 0)
-    {
+    if (output_file_name == 0) {
         oflag = 1;
         CREATE_FILE_NAME(output_file_name, OUTPUT_SUFFIX);
     }
 
     if (rflag)
-    {
         CREATE_FILE_NAME(code_file_name, CODE_SUFFIX);
-    }
     else
         code_file_name = output_file_name;
 
     if (dflag)
-    {
         CREATE_FILE_NAME(defines_file_name, defines_suffix);
-    }
 
     if (iflag)
-    {
         CREATE_FILE_NAME(externs_file_name, externs_suffix);
-    }
 
     if (vflag)
-    {
         CREATE_FILE_NAME(verbose_file_name, VERBOSE_SUFFIX);
-    }
 
     if (gflag)
-    {
         CREATE_FILE_NAME(graph_file_name, GRAPH_SUFFIX);
-    }
 
     if (prefix != NULL)
-    {
         FREE(file_prefix);
-    }
 }
 
 #if USE_MKSTEMP
-static void
-close_tmpfiles(void)
-{
-    while (my_tmpfiles != 0)
-    {
+static void close_tmpfiles(void) {
+    while (my_tmpfiles != 0) {
         MY_TMPFILES *next = my_tmpfiles->next;
 
         (void)chmod(my_tmpfiles->name, 0644);
@@ -502,9 +457,7 @@ close_tmpfiles(void)
 }
 
 #ifndef HAVE_MKSTEMP
-static int
-my_mkstemp(char *temp)
-{
+static int my_mkstemp(char *temp) {
     int fd;
     char *dname;
     char *fname;
@@ -514,25 +467,20 @@ my_mkstemp(char *temp)
      * Split-up to use tempnam, rather than tmpnam; the latter (like
      * mkstemp) is unusable on Windows.
      */
-    if ((fname = strrchr(temp, '/')) != 0)
-    {
+    if ((fname = strrchr(temp, '/')) != 0) {
         dname = strdup(temp);
         dname[++fname - temp] = '\0';
     }
-    else
-    {
+    else {
         dname = 0;
         fname = temp;
     }
-    if ((name = tempnam(dname, fname)) != 0)
-    {
+    if ((name = tempnam(dname, fname)) != 0) {
         fd = open(name, O_CREAT | O_EXCL | O_RDWR);
         strcpy(temp, name);
     }
     else
-    {
         fd = -1;
-    }
 
     if (dname != 0)
         free(dname);
@@ -548,9 +496,7 @@ my_mkstemp(char *temp)
  * tmpfile() should be adequate, except that it may require special privileges
  * to use, e.g., MinGW and Windows 7 where it tries to use the root directory.
  */
-static FILE *
-open_tmpfile(const char *label)
-{
+static FILE * open_tmpfile(const char *label) {
 #define MY_FMT "%s/%.*sXXXXXX"
     FILE *result;
 #if USE_MKSTEMP
@@ -559,8 +505,7 @@ open_tmpfile(const char *label)
     char *name;
     const char *mark;
 
-    if ((tmpdir = getenv("TMPDIR")) == 0 || access(tmpdir, W_OK) != 0)
-    {
+    if ((tmpdir = getenv("TMPDIR")) == 0 || access(tmpdir, W_OK) != 0) {
 #ifdef P_tmpdir
         tmpdir = P_tmpdir;
 #else
@@ -577,8 +522,7 @@ open_tmpfile(const char *label)
     name = malloc(strlen(tmpdir) + sizeof(MY_FMT) + strlen(label));
 
     result = 0;
-    if (name != 0)
-    {
+    if (name != 0) {
         mode_t save_umask = umask(0177);
 
         if ((mark = strrchr(label, '_')) == 0)
@@ -586,17 +530,13 @@ open_tmpfile(const char *label)
 
         sprintf(name, MY_FMT, tmpdir, (int)(mark - label), label);
         fd = mkstemp(name);
-        if (fd >= 0)
-        {
+        if (fd >= 0) {
             result = fdopen(fd, "w+");
-            if (result != 0)
-            {
+            if (result != 0) {
                 MY_TMPFILES *item;
 
                 if (my_tmpfiles == 0)
-                {
                     atexit(close_tmpfiles);
-                }
 
                 item = NEW(MY_TMPFILES);
                 NO_SPACE(item);
@@ -620,13 +560,10 @@ open_tmpfile(const char *label)
 #undef MY_FMT
 }
 
-static void
-open_files(void)
-{
+static void open_files(void) {
     create_file_names();
 
-    if (input_file == 0)
-    {
+    if (input_file == 0) {
         input_file = fopen(input_file_name, "r");
         if (input_file == 0)
             open_error(input_file_name);
@@ -635,15 +572,13 @@ open_files(void)
     action_file = open_tmpfile("action_file");
     text_file = open_tmpfile("text_file");
 
-    if (vflag)
-    {
+    if (vflag) {
         verbose_file = fopen(verbose_file_name, "w");
         if (verbose_file == 0)
             open_error(verbose_file_name);
     }
 
-    if (gflag)
-    {
+    if (gflag) {
         graph_file = fopen(graph_file_name, "w");
         if (graph_file == 0)
             open_error(graph_file_name);
@@ -659,16 +594,14 @@ open_files(void)
         fprintf(graph_file, "\t*/\n");
     }
 
-    if (dflag)
-    {
+    if (dflag) {
         defines_file = fopen(defines_file_name, "w");
         if (defines_file == 0)
             open_error(defines_file_name);
         union_file = open_tmpfile("union_file");
     }
 
-    if (iflag)
-    {
+    if (iflag) {
         externs_file = fopen(externs_file_name, "w");
         if (externs_file == 0)
             open_error(externs_file_name);
@@ -678,8 +611,7 @@ open_files(void)
     if (output_file == 0)
         open_error(output_file_name);
 
-    if (rflag)
-    {
+    if (rflag) {
         code_file = fopen(code_file_name, "w");
         if (code_file == 0)
             open_error(code_file_name);
@@ -688,9 +620,7 @@ open_files(void)
         code_file = output_file;
 }
 
-int
-main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     SRexpect = -1;
     RRexpect = -1;
     exit_code = EXIT_SUCCESS;

@@ -11,9 +11,7 @@ static bucket **symbol_table = 0;
 bucket *first_symbol;
 bucket *last_symbol;
 
-static int
-hash(const char *name)
-{
+static int hash(const char *name) {
     const char *s;
     int c, k;
 
@@ -26,9 +24,7 @@ hash(const char *name)
     return (k);
 }
 
-bucket *
-make_bucket(const char *name)
-{
+bucket *make_bucket(const char *name) {
     bucket *bp;
 
     assert(name != 0);
@@ -59,16 +55,13 @@ make_bucket(const char *name)
     return (bp);
 }
 
-bucket *
-lookup(const char *name)
-{
+bucket *lookup(const char *name) {
     bucket *bp, **bpp;
 
     bpp = symbol_table + hash(name);
     bp = *bpp;
 
-    while (bp)
-    {
+    while (bp) {
         if (strcmp(name, bp->name) == 0)
             return (bp);
         bpp = &bp->link;
@@ -82,9 +75,7 @@ lookup(const char *name)
     return (bp);
 }
 
-void
-create_symbol_table(void)
-{
+void create_symbol_table(void) {
     int i;
     bucket *bp;
 
@@ -103,20 +94,15 @@ create_symbol_table(void)
     symbol_table[hash("error")] = bp;
 }
 
-void
-free_symbol_table(void)
-{
+void free_symbol_table(void) {
     FREE(symbol_table);
     symbol_table = 0;
 }
 
-void
-free_symbols(void)
-{
+void free_symbols(void) {
     bucket *p, *q;
 
-    for (p = first_symbol; p; p = q)
-    {
+    for (p = first_symbol; p; p = q) {
         q = p->next;
         FREE(p);
     }

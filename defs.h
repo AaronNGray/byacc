@@ -19,6 +19,9 @@
 #define YYMAJOR 1
 #define YYMINOR 9
 
+#define TRUE (0==0)
+#define FALSE (0!=0)
+
 #define CONCAT(first,second)    first #second
 #define CONCAT1(string,number)  CONCAT(string, number)
 #define CONCAT2(first,second)   #first "." #second

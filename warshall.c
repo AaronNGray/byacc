@@ -2,9 +2,7 @@
 
 #include "defs.h"
 
-static void
-transitive_closure(unsigned *R, int n)
-{
+static void transitive_closure(unsigned *R, int n) {
     int rowsize;
     unsigned i;
     unsigned *rowj;
@@ -21,30 +19,24 @@ transitive_closure(unsigned *R, int n)
     cword = R;
     i = 0;
     rowi = R;
-    while (rowi < relend)
-    {
+    while (rowi < relend) {
         ccol = cword;
         rowj = R;
 
-        while (rowj < relend)
-        {
-            if (*ccol & (unsigned)(1 << i))
-            {
+        while (rowj < relend) {
+            if (*ccol & (unsigned)(1 << i)) {
                 rp = rowi;
                 rend = rowj + rowsize;
                 while (rowj < rend)
                     *rowj++ |= *rp++;
             }
             else
-            {
                 rowj += rowsize;
-            }
 
             ccol += rowsize;
         }
 
-        if (++i >= BITS_PER_WORD)
-        {
+        if (++i >= BITS_PER_WORD) {
             i = 0;
             cword++;
         }
@@ -53,9 +45,7 @@ transitive_closure(unsigned *R, int n)
     }
 }
 
-void
-reflexive_transitive_closure(unsigned *R, int n)
-{
+void reflexive_transitive_closure(unsigned *R, int n) {
     int rowsize;
     unsigned i;
     unsigned *rp;
@@ -68,11 +58,9 @@ reflexive_transitive_closure(unsigned *R, int n)
 
     i = 0;
     rp = R;
-    while (rp < relend)
-    {
+    while (rp < relend) {
         *rp |= (unsigned)(1 << i);
-        if (++i >= BITS_PER_WORD)
-        {
+        if (++i >= BITS_PER_WORD) {
             i = 0;
             rp++;
         }

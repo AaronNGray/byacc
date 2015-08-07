@@ -17,9 +17,7 @@
 static char *buf_ptr;
 static size_t buf_len;
 
-void
-msprintf(struct mstring *s, const char *fmt,...)
-{
+void msprintf(struct mstring *s, const char *fmt,...) {
     va_list args;
     size_t len;
 #ifdef HAVE_VSNPRINTF
@@ -30,33 +28,25 @@ msprintf(struct mstring *s, const char *fmt,...)
         return;
 
     if (buf_len == 0)
-    {
         buf_ptr = malloc(buf_len = 4096);
-    }
     if (buf_ptr == 0)
-    {
         return;
-    }
 
 #ifdef HAVE_VSNPRINTF
-    do
-    {
+    do {
         va_start(args, fmt);
         len = (size_t) vsnprintf(buf_ptr, buf_len, fmt, args);
         va_end(args);
-        if ((changed = (len > buf_len)) != 0)
-        {
+        if ((changed = (len > buf_len)) != 0) {
             char *new_ptr = realloc(buf_ptr, (buf_len * 3) / 2);
-            if (new_ptr == 0)
-            {
+            if (new_ptr == 0) {
                 free(buf_ptr);
                 buf_ptr = 0;
                 return;
             }
             buf_ptr = new_ptr;
         }
-    }
-    while (changed);
+    } while (changed);
 #else
     va_start(args, fmt);
     len = (size_t) vsprintf(buf_ptr, fmt, args);
@@ -65,22 +55,19 @@ msprintf(struct mstring *s, const char *fmt,...)
         return;
 #endif
 
-    if (len > (size_t) (s->end - s->ptr))
-    {
+    if (len > (size_t) (s->end - s->ptr)) {
         char *new_base;
         size_t cp = (size_t) (s->ptr - s->base);
         size_t cl = (size_t) (s->end - s->base);
         size_t nl = cl;
         while (len > (nl - cp))
             nl = nl + nl + TAIL;
-        if ((new_base = realloc(s->base, nl)))
-        {
+        if ((new_base = realloc(s->base, nl))) {
             s->base = new_base;
             s->ptr = s->base + cp;
             s->end = s->base + nl;
         }
-        else
-        {
+        else {
             free(s->base);
             s->base = 0;
             s->ptr = 0;
@@ -93,21 +80,16 @@ msprintf(struct mstring *s, const char *fmt,...)
 }
 #endif
 
-int
-mputchar(struct mstring *s, int ch)
-{
+int mputchar(struct mstring *s, int ch) {
     if (!s || !s->base)
         return ch;
-    if (s->ptr == s->end)
-    {
+    if (s->ptr == s->end) {
         size_t len = (size_t) (s->end - s->base);
-        if ((s->base = realloc(s->base, len + len + TAIL)))
-        {
+        if ((s->base = realloc(s->base, len + len + TAIL))) {
             s->ptr = s->base + len;
             s->end = s->base + len + len + TAIL;
         }
-        else
-        {
+        else {
             s->ptr = s->end = 0;
             return ch;
         }
@@ -116,19 +98,13 @@ mputchar(struct mstring *s, int ch)
     return ch;
 }
 
-struct mstring *
-msnew(void)
-{
+struct mstring *msnew(void) {
     struct mstring *n = TMALLOC(struct mstring, 1);
 
-    if (n)
-    {
+    if (n) {
         if ((n->base = n->ptr = MALLOC(HEAD)) != 0)
-        {
             n->end = n->base + HEAD;
-        }
-        else
-        {
+        else {
             free(n);
             n = 0;
         }
@@ -136,12 +112,9 @@ msnew(void)
     return n;
 }
 
-char *
-msdone(struct mstring *s)
-{
+char *msdone(struct mstring *s) {
     char *r = 0;
-    if (s)
-    {
+    if (s) {
         mputc(s, 0);
         r = s->base;
         free(s);
@@ -152,11 +125,8 @@ msdone(struct mstring *s)
 #if defined(YYBTYACC)
 /* compare two strings, ignoring whitespace, except between two letters or
 ** digits (and treat all of these as equal) */
-int
-strnscmp(const char *a, const char *b)
-{
-    while (1)
-    {
+int strnscmp(const char *a, const char *b) {
+    while (TRUE) {
         while (isspace(*a))
             a++;
         while (isspace(*b))
@@ -164,28 +134,21 @@ strnscmp(const char *a, const char *b)
         while (*a && *a == *b)
             a++, b++;
         if (isspace(*a))
-        {
             if (isalnum(a[-1]) && isalnum(*b))
                 break;
-        }
         else if (isspace(*b))
-        {
             if (isalnum(b[-1]) && isalnum(*a))
                 break;
-        }
         else
             break;
     }
     return *a - *b;
 }
 
-unsigned int
-strnshash(const char *s)
-{
+unsigned int strnshash(const char *s) {
     unsigned int h = 0;
 
-    while (*s)
-    {
+    while (*s) {
         if (!isspace(*s))
             h = (h << 5) - h + (unsigned char)*s;
         s++;
@@ -195,9 +158,7 @@ strnshash(const char *s)
 #endif
 
 #ifdef NO_LEAKS
-void
-mstring_leaks(void)
-{
+void mstring_leaks(void) {
 #if defined(YYBTYACC)
     free(buf_ptr);
     buf_ptr = 0;
