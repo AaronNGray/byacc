@@ -6,18 +6,18 @@
 
 #include "defs.h"
 
-/*  If the skeleton is changed, the banner should be changed so that      */
-/*  the altered version can be easily distinguished from the original.    */
-/*                                                                        */
-/*  The #defines included with the banner are there because they are      */
-/*  useful in subsequent code.  The macros #defined in the header or      */
-/*  the body either are not useful outside of semantic actions or         */
-/*  are conditional.                                                      */
+/*  If the skeleton is changed, the banner should be changed so that	*/
+/*  the altered version can be easily distinguished from the original.	*/
+/*									*/
+/*  The #defines included with the banner are there because they are	*/
+/*  useful in subsequent code.  The macros #defined in the header or	*/
+/*  the body either are not useful outside of semantic actions or	*/
+/*  are conditional.							*/
 
 const char *const banner[] =
 {
     "/* original parser id follows */",
-    "/* yysccsid[] = \"@(#)yaccpar        1.9 (Berkeley) 02/21/93\" */",
+    "/* yysccsid[] = \"@(#)yaccpar	1.9 (Berkeley) 02/21/93\" */",
     "/* (use YYMAJOR/YYMINOR for ifdefs dependent on parser version) */",
     "",
     "#define YYBYACC 1",
@@ -132,11 +132,11 @@ const char *const body_1[] =
 {
     "",
     "#if YYDEBUG",
-    "#include <stdio.h>                /* needed for printf */",
+    "#include <stdio.h>		/* needed for printf */",
     "#endif",
     "",
-    "#include <stdlib.h>        /* needed for malloc, etc */",
-    "#include <string.h>        /* needed for memset */",
+    "#include <stdlib.h>	/* needed for malloc, etc */",
+    "#include <string.h>	/* needed for memset */",
     "",
     "/* allocate initial stack or double stack size, up to YYMAXDEPTH */",
     "static int yygrowstack(YYSTACKDATA *data)",
@@ -411,8 +411,8 @@ write_section(FILE * fp, const char *const section[])
 
     for (i = 0; (s = section[i]) != 0; ++i)
     {
-        if (fp == code_file)
-            ++outline;
-        fprintf(fp, "%s\n", s);
+	if (fp == code_file)
+	    ++outline;
+	fprintf(fp, "%s\n", s);
     }
 }

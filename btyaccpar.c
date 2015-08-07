@@ -6,18 +6,18 @@
 
 #include "defs.h"
 
-/*  If the skeleton is changed, the banner should be changed so that      */
-/*  the altered version can be easily distinguished from the original.    */
-/*                                                                        */
-/*  The #defines included with the banner are there because they are      */
-/*  useful in subsequent code.  The macros #defined in the header or      */
-/*  the body either are not useful outside of semantic actions or         */
-/*  are conditional.                                                      */
+/*  If the skeleton is changed, the banner should be changed so that	*/
+/*  the altered version can be easily distinguished from the original.	*/
+/*									*/
+/*  The #defines included with the banner are there because they are	*/
+/*  useful in subsequent code.  The macros #defined in the header or	*/
+/*  the body either are not useful outside of semantic actions or	*/
+/*  are conditional.							*/
 
 const char *const banner[] =
 {
     "/* original parser id follows */",
-    "/* yysccsid[] = \"@(#)yaccpar        1.9 (Berkeley) 02/21/93\" */",
+    "/* yysccsid[] = \"@(#)yaccpar	1.9 (Berkeley) 02/21/93\" */",
     "/* (use YYMAJOR/YYMINOR for ifdefs dependent of parser version) */",
     "",
     "#define YYBYACC 1",
@@ -56,7 +56,7 @@ const char *const tables[] =
     "#if YYBTYACC",
     "extern const YYINT yycindex[];",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "extern const YYINT yygindex[];",
     "extern const YYINT yytable[];",
     "extern const YYINT yycheck[];",
@@ -64,7 +64,7 @@ const char *const tables[] =
     "#if YYBTYACC",
     "extern const YYINT yyctable[];",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "",
     "#if YYDEBUG",
     "extern const char *const yyname[];",
@@ -127,7 +127,7 @@ const char *const hdr_defs[] =
     "#define YYLVQUEUEGROWTH 32",
     "#endif",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "",
     "/* define the initial stack-sizes */",
     "#ifdef YYSTACKSIZE",
@@ -172,7 +172,7 @@ const char *const hdr_defs[] =
     "};",
     "typedef struct YYParseState_s YYParseState;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     0
 };
 
@@ -220,7 +220,7 @@ const char *const hdr_vars[] =
     "",
     "static short  *yylexemes = 0;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     0
 };
 
@@ -277,7 +277,7 @@ const char *const body_vars[] =
     "",
     "    static short  *yylexemes = 0;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     0
 };
 
@@ -290,7 +290,7 @@ const char *const body_1[] =
     "#if YYBTYACC",
     "#define yytrial (yyps->save)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "",
     "#if YYDEBUG",
     "#include <stdio.h>         /* needed for printf */",
@@ -404,7 +404,7 @@ const char *const body_1[] =
     "    free(p);",
     "}",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "",
     "#define YYABORT  goto yyabort",
     "#define YYREJECT goto yyabort",
@@ -416,7 +416,7 @@ const char *const body_1[] =
     "#define YYVALID_NESTED do { if (yyps->save && \\",
     "                                yyps->save->save == 0) goto yyvalid; } while(0)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "",
     "int",
     "YYPARSE_DECL()",
@@ -432,7 +432,7 @@ const char *const body_2[] =
     "    int yynewerrflag;",
     "    YYParseState *yyerrctx = NULL;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "    YYLTYPE  yyerror_loc_range[2]; /* position of error start & end */",
     "#endif",
@@ -454,7 +454,7 @@ const char *const body_2[] =
     "    yyps = yyNewState(0); if (yyps == 0) goto yyenomem;",
     "    yyps->save = 0;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "    yynerrs = 0;",
     "    yyerrflag = 0;",
     "    yychar = YYEMPTY;",
@@ -524,13 +524,13 @@ const char *const body_2[] =
     "        }",
     "        /* normal operation, no conflict encountered */",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "        yychar = YYLEX;",
 #if defined(YYBTYACC)
     "#if YYBTYACC",
     "        } while (0);",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "        if (yychar < 0) yychar = YYEOF;",
     "        /* if ((yychar = YYLEX) < 0) yychar = YYEOF; */",
     "#if YYDEBUG",
@@ -544,7 +544,7 @@ const char *const body_2[] =
     "#if YYBTYACC",
     "            if (!yytrial)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "                fprintf(stderr, \" <%s>\", YYSTYPE_TOSTRING(yychar, yylval));",
     "#endif",
     "            fputc('\\n', stderr);",
@@ -695,7 +695,7 @@ const char *const body_2[] =
     "        }",
     "    } /* End of code dealing with conflicts */",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "    if (((yyn = yysindex[yystate]) != 0) && (yyn += yychar) >= 0 &&",
     "            yyn <= YYTABLESIZE && yycheck[yyn] == (YYINT) yychar)",
     "    {",
@@ -820,7 +820,7 @@ const char *const body_2[] =
     "    }",
     "    if (yynewerrflag == 0) goto yyinrecovery;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "",
     "    YYERROR_CALL(\"syntax error\");",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
@@ -876,7 +876,7 @@ const char *const body_2[] =
     "#if YYBTYACC",
     "                if (!yytrial)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "                    YYDESTRUCT_CALL(\"error: discarding state\",",
     "                                    yystos[*yystack.s_mark], yystack.l_mark, yystack.p_mark);",
@@ -909,7 +909,7 @@ const char *const body_2[] =
     "#if YYBTYACC",
     "        if (!yytrial)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "            YYDESTRUCT_CALL(\"error: discarding token\", yychar, &yylval, &yylloc);",
     "#else",
@@ -932,7 +932,7 @@ const char *const body_2[] =
     "#if YYBTYACC",
     "        if (!yytrial)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "            if (yym > 0)",
     "            {",
     "                int i;",
@@ -961,7 +961,7 @@ const char *const body_2[] =
     "#if YYBTYACC",
     "    if (!yytrial)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "    {",
     "        YYLLOC_DEFAULT(yyloc, &yystack.p_mark[1-yym], yym);",
     "        /* just in case YYERROR is invoked within the action, save",
@@ -998,7 +998,7 @@ const char *const trailer[] =
     "#if YYBTYACC",
     "            if (!yytrial)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "                fprintf(stderr, \"result is <%s>, \", YYSTYPE_TOSTRING(yystos[YYFINAL], yyval));",
     "#endif",
     "            fprintf(stderr, \"shifting from state 0 to final state %d\\n\", YYFINAL);",
@@ -1062,13 +1062,13 @@ const char *const trailer[] =
     "            }",
     "            /* normal operation, no conflict encountered */",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "            yychar = YYLEX;",
 #if defined(YYBTYACC)
     "#if YYBTYACC",
     "            } while (0);",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "            if (yychar < 0) yychar = YYEOF;",
     "            /* if ((yychar = YYLEX) < 0) yychar = YYEOF; */",
     "#if YYDEBUG",
@@ -1097,7 +1097,7 @@ const char *const trailer[] =
     "#if YYBTYACC",
     "        if (!yytrial)",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "            fprintf(stderr, \"result is <%s>, \", YYSTYPE_TOSTRING(yystos[yystate], yyval));",
     "#endif",
     "        fprintf(stderr, \"shifting from state %d to state %d\\n\", *yystack.s_mark, yystate);",
@@ -1150,7 +1150,7 @@ const char *const trailer[] =
     "    yystate        = yypath->state;",
     "    goto yyloop;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "",
     "yyoverflow:",
     "    YYERROR_CALL(\"yacc stack overflow\");",
@@ -1161,7 +1161,7 @@ const char *const trailer[] =
     "    YYERROR_CALL(\"memory exhausted\");",
     "yyabort_nomem:",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "    yyresult = 2;",
     "    goto yyreturn;",
     "",
@@ -1174,7 +1174,7 @@ const char *const trailer[] =
     "#if YYBTYACC",
     "    if (yyps->save) goto yyvalid;",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "    yyresult = 0;",
     "",
     "yyreturn:",
@@ -1224,7 +1224,7 @@ const char *const trailer[] =
     "        yyFreeState(save);",
     "    }",
     "#endif /* YYBTYACC */",
-#endif                        /* defined(YYBTYACC) */
+#endif			/* defined(YYBTYACC) */
     "    yyfreestack(&yystack);",
     "    return (yyresult);",
     "}",
@@ -1239,8 +1239,8 @@ write_section(FILE * fp, const char *const section[])
 
     for (i = 0; (s = section[i]) != 0; ++i)
     {
-        if (fp == code_file)
-            ++outline;
-        fprintf(fp, "%s\n", s);
+	if (fp == code_file)
+	    ++outline;
+	fprintf(fp, "%s\n", s);
     }
 }
