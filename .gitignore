@@ -1,0 +1,6 @@
+config.*
+makefile
+yacc.exe
+*.o
+test/yacc/test-*.*
+man2html.tmp
