@@ -2451,7 +2451,7 @@ static void copy_destructor(void) {
                     bp->destructor = process_destructor_XX(code_text, tag);
             }
         }
-        else if (isalpha(c) || c == '_' || c == '.' || c == '$') */
+        else if (isalpha(c) || c == '_' || c == '.' || c == '$') {
             bp = get_name();
             if (bp->destructor != NULL)
                 destructor_redeclared_warning(a_lineno, a_line, a_cptr);
